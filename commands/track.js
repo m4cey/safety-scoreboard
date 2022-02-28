@@ -8,24 +8,17 @@ module.exports = {
 		.addStringOption(option =>
 			option.setName('keyword')
 				.setDescription('The keyword to be tracked')
-				.setRequired(true))
-		.addStringOption(option =>
-			option.setName('keywords')
-				.setDescription('Additional keywords to use as synonyms')
-				.setRequired(false)),
+				.setRequired(true)),
 	async execute(interaction) {
 		const engine = new StormDB.localFileEngine("./db.stormdb");
 		const db = new StormDB(engine);
 
 		const keyword = interaction.options.getString('keyword');
-		const keywords = interaction.options.getString('keywords');
 
-		console.log(keyword, keywords);
+		console.log(keyword);
 
-		db.get(keyword).set([]).push({'timestamp':interaction.createdTimestamp});
-		if (keywords)
-			db.get(keyword).push([{'keywords': keywords.split(',')}]);
+		db.get(keyword).set(interaction.createdTimestamp);
 		db.save();
-		await interaction.reply(`Tracking for ${keyword} was set!`);
+		await interaction.reply(`Tracking ${keyword}.`);
 	},
 };
