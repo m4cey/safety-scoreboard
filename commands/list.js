@@ -10,6 +10,7 @@ module.exports = {
 		const engine = new StormDB.localFileEngine("./db.stormdb");
 		const db = new StormDB(engine);
 
-		await interaction.reply(JSON.stringify(db.value()));
+		const list = Object.keys(db.value()).toString()
+		await interaction.reply(list);
 	},
 };

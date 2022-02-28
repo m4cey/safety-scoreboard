@@ -50,9 +50,9 @@ client.on('messageCreate', async message => {
 	const database = db.value();
 
 	Object.keys(database).forEach(keyword => {
-		const match = message.content.includes(keyword);
-		//const match = interaction.message.content.match(`/${keyword}/i`);
-		if (match) {
+		//const match = message.content.includes(keyword);
+		const match = message.content.search(new RegExp(keyword, 'i'));
+		if (!match) {
 			const oldTimestamp = db.get(keyword).value();
 			db.get(keyword).set(message.createdTimestamp);
 			db.save();
