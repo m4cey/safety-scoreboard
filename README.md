@@ -5,3 +5,6 @@ __Commands:__
 __Functionality:__
 read every message and post a time scoreboard image everytime a keyword is present.
 counts are reset every time a match occurs.
+
+__Database__
+| master keyword | [ additional keywords ] | "time since last match" |
