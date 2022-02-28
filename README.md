@@ -1,6 +1,7 @@
 __Commands:__
 * /track (keyword, opt: additional keywords); register a word or more to be watched for by the bot.
-* /untrack (keyword); remove a keyword and from the registery.
+* /untrack (keyword); remove a keyword from the registery.
+* /list; list all keywords.
 
 __Functionality:__
 
