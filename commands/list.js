@@ -23,7 +23,6 @@ module.exports = {
 			const keyword = Object.keys(obj)[0];
 			const time = Object.values(obj)[0];
 			let timeScore = Math.abs(moment().diff(moment(time), db.get('timemode').value()));
-			console.log(timeScore);
 			fieldName.name = keyword;
 			fieldName.value = `Last accident: ${timeScore} ${db.get('timemode').value()}`;
 			fieldName.inline = true;

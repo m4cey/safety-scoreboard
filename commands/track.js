@@ -15,15 +15,12 @@ module.exports = {
 
 		const keyword = interaction.options.getString('keyword');
 
-		console.log(keyword);
-
 		const obj = {};
 		obj[keyword] = interaction.createdTimestamp;
 		if (!db.get("keywords").value())
 			db.get("keywords").set([]);
 		db.get("keywords").push(obj);
 		db.save();
-		console.log(db.get('keywords').value());
 		await interaction.reply(`Tracking ${keyword}.`);
 	},
 };

@@ -25,11 +25,7 @@ module.exports = {
 				const engine = new StormDB.localFileEngine("./db.stormdb");
 				const db = new StormDB(engine);
 
-				//NEED FIX
-				//db.get('keywords').get(keyword).delete(true);
 				deleteKeyword(keyword);
-				//db.save();
-				console.log(db.get('keywords').value());
 				interaction.reply(`${keyword} was deleted`);
 			} else {
 				interaction.reply(`${keyword} wasn't deleted, did it even exist?`);
@@ -41,7 +37,6 @@ module.exports = {
 
 			db.get('keywords').set([]);
 			db.save();
-			console.log(db.get('keywords').value());
 			await interaction.reply('database yeeted succesfully (maybe)');
 		}
 	},

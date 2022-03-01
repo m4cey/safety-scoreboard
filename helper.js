@@ -23,8 +23,8 @@ module.exports = {
 			return;
 
 		const newdata = data.map(obj => {
-			if (keyword === Object.keys(obj)[0])
-				return obj[keyword] = value;
+			if (keyword == Object.keys(obj)[0])
+				obj[keyword] = value;
 			return obj;
 		});
 		db.get('keywords').set(newdata);

@@ -61,11 +61,8 @@ client.on('messageCreate', async message => {
 		const match = message.content.search(new RegExp(keyword, 'i'));
 		if (!match) {
 			setKeyword(keyword, message.createdTimestamp);
-			console.log(db.get('keywords').value());
-			db.save();
 
 			let timeScore = moment().diff(moment(oldTimestamp), db.get('timemode').value());
-			console.log(oldTimestamp);
 
 			const embed = new MessageEmbed().setColor('0x00FFFF')
 				.setTitle(`~~${timeScore}~~ **0 ${db.get('timemode').value().toUpperCase()}**`)
