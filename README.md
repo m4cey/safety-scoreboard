@@ -1,13 +1,11 @@
 __Commands:__
-* /track (keyword, opt: additional keywords); register a word or more to be watched for by the bot.
-* /untrack (keyword); remove a keyword from the registery.
+* /track (keyword); register a word or more to be watched for by the bot.
+* /clear (keyword); remove a keyword.
+* /clear all; remove all keywords.
 * /list; list all keywords.
+* /timemode (seconds, minutes, hours, days); set the timing mode.
 
 __Functionality:__
 
-read every message and post a time scoreboard image everytime a keyword is present.
-counts are reset every time a match occurs.
-
-__Database__
-
-| master keyword | [ additional keywords ] | "time since last match" |
+read every message and post a time scoreboard everytime a keyword is present.
+counts are reset when a match occurs.
