@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const StormDB = require("stormdb");
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { deleteKeyword } = require('../helper.js');
 
 
 module.exports = {
@@ -24,21 +25,24 @@ module.exports = {
 				const engine = new StormDB.localFileEngine("./db.stormdb");
 				const db = new StormDB(engine);
 
-				db.get(keyword).delete();
-				db.save();
+				//NEED FIX
+				//db.get('keywords').get(keyword).delete(true);
+				deleteKeyword(keyword);
+				//db.save();
+				console.log(db.get('keywords').value());
 				interaction.reply(`${keyword} was deleted`);
 			} else {
 				interaction.reply(`${keyword} wasn't deleted, did it even exist?`);
 			}
 
 		}	else if (interaction.options.getSubcommand() === 'all') {
-			fs.unlink('./db.stormdb', (error) => {
-				if (error) {
-					console.error(error)
-					interaction.reply({ content: 'something\'s wrong :/', ephemeral: true });
-				}
-			})
-			await interaction.reply('the database was yeeted');
+			const engine = new StormDB.localFileEngine("./db.stormdb");
+			const db = new StormDB(engine);
+
+			db.get('keywords').set([]);
+			db.save();
+			console.log(db.get('keywords').value());
+			await interaction.reply('database yeeted succesfully (maybe)');
 		}
 	},
 };

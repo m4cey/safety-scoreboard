@@ -7,7 +7,7 @@ module.exports = {
 		.setDescription('track keyword(s)')
 		.addStringOption(option =>
 			option.setName('keyword')
-				.setDescription('The keyword to be tracked')
+				.setDescription('The word to be tracked')
 				.setRequired(true)),
 	async execute(interaction) {
 		const engine = new StormDB.localFileEngine("./db.stormdb");
@@ -17,8 +17,13 @@ module.exports = {
 
 		console.log(keyword);
 
-		db.get(keyword).set(interaction.createdTimestamp);
+		const obj = {};
+		obj[keyword] = interaction.createdTimestamp;
+		if (!db.get("keywords").value())
+			db.get("keywords").set([]);
+		db.get("keywords").push(obj);
 		db.save();
+		console.log(db.get('keywords').value());
 		await interaction.reply(`Tracking ${keyword}.`);
 	},
 };

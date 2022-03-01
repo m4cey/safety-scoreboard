@@ -1,9 +1,10 @@
 // Require the necessary discord.js classes
 const fs = require('node:fs');
-const { Client, Collection, Intents } = require('discord.js');
+const { Client, Collection, Intents, MessageEmbed } = require('discord.js');
 const { token } = require('./config.json');
 const StormDB = require('stormdb');
 const moment = require('moment');
+const { setKeyword } = require('./helper.js');
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
@@ -20,6 +21,9 @@ for (const file of commandFiles) {
 }
 
 // When the client is ready, run this code (only once)
+const engine = new StormDB.localFileEngine("./db.stormdb");
+const db = new StormDB(engine);
+db.default({ timemode: 'minutes', keywords: [] }).save();
 moment().format();
 
 client.once('ready', () => {
@@ -47,20 +51,29 @@ client.on('messageCreate', async message => {
 	const db = new StormDB(engine);
 
 	if (message.author.bot) return;
-	const database = db.value();
+	const data = db.get('keywords').value();
+	if (!data)
+		return;
 
-	Object.keys(database).forEach(keyword => {
-		//const match = message.content.includes(keyword);
+	for (obj of data) {
+		const keyword = Object.keys(obj)[0];
+		const oldTimestamp = Object.values(obj)[0];
 		const match = message.content.search(new RegExp(keyword, 'i'));
 		if (!match) {
-			const oldTimestamp = db.get(keyword).value();
-			db.get(keyword).set(message.createdTimestamp);
+			setKeyword(keyword, message.createdTimestamp);
+			console.log(db.get('keywords').value());
 			db.save();
 
-			let timeScore = Math.abs(moment(oldTimestamp).diff(moment(message.createdTimestamp), 'minutes'));
-			message.reply(`this job has worked\n~~${timeScore}~~ **0 MINUTES**\nwithout a **${keyword}** related accident!`)
+			let timeScore = moment().diff(moment(oldTimestamp), db.get('timemode').value());
+			console.log(oldTimestamp);
+
+			const embed = new MessageEmbed().setColor('0x00FFFF')
+				.setTitle(`~~${timeScore}~~ **0 ${db.get('timemode').value().toUpperCase()}**`)
+				.setAuthor({ name: 'This place has worked:'})
+				.setDescription(`without a **${keyword}** related accident!`);
+			message.reply({ embeds: [embed] });
 		}
-	})
+	}
 });
 
 // Login to Discord with your client's token
