@@ -58,8 +58,9 @@ client.on('messageCreate', async message => {
 	for (obj of data) {
 		const keyword = Object.keys(obj)[0];
 		const oldTimestamp = Object.values(obj)[0];
-		const match = message.content.search(new RegExp(keyword, 'i'));
-		if (!match) {
+		const regexp = new RegExp(keyword, 'gi');
+		const match = regexp.test(message.content);
+		if (match) {
 			setKeyword(keyword, message.createdTimestamp);
 
 			let timeScore = moment().diff(moment(oldTimestamp), db.get('timemode').value());
