@@ -38,7 +38,6 @@ module.exports = {
 		if (!data)
 			return;
 
-		console.log('begin scoring');
 		const newdata = data.map(obj => {
 			if (keyword == Object.keys(obj)[0]) {
 				if (obj['score']) {
@@ -49,7 +48,6 @@ module.exports = {
 				obj['score'] = {};
 				obj['score'][userId] = score;
 			}
-			console.log(obj);
 			return obj;
 		});
 		db.get('keywords').set(newdata);
