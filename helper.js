@@ -69,6 +69,7 @@ module.exports = {
 					obj['count'] = obj['count'] + 1;
 				else
 					obj['count'] = 1;
+				console.log(obj);
 				return obj;
 			}
 			return obj;
