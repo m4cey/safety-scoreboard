@@ -14,6 +14,10 @@ module.exports = {
 		const db = new StormDB(engine);
 
 		const keyword = interaction.options.getString('keyword');
+		if (keyword == 'count' || keyword == 'score') {
+			await interaction.reply('that\'s an illegal word sorry');
+			return;
+		}
 
 		const obj = {};
 		obj[keyword] = interaction.createdTimestamp;

@@ -24,8 +24,14 @@ module.exports = {
 			const time = Object.values(obj)[0];
 			const timeScore = moment().diff(moment(time));
 			const timeMode = db.get('timemode').value();
-			fieldName.name = keyword.toUpperCase();
-			fieldName.value = `Last accident: ${Math.round(moment.duration(timeScore).as(timeMode))} ${timeMode} ago`;
+			const occurences = obj['count'];
+			if (occurences) {
+				fieldName.name = `${keyword.toUpperCase()} | ${occurences || 0} occurence(s)`;
+				fieldName.value = `Last accident: ${Math.round(moment.duration(timeScore).as(timeMode))} ${timeMode} ago`;
+			} else {
+				fieldName.name = keyword.toUpperCase();
+				fieldName.value = 'No recorded accidents :)';
+			}
 			fieldName.inline = true;
 			fieldNames.push(fieldName);
 		}
@@ -36,7 +42,7 @@ module.exports = {
 			.addFields(fieldNames)
 			.setFooter({ text: 'o__o' });
 		if (data.length === 0)
-			embed.setDescription('there\'s nothing here... add smth with /track')
+			embed.setDescription('there\'s nothing here... add smth using /track')
 		await interaction.reply({ embeds: [embed]});
 	},
 };

@@ -26,8 +26,9 @@ module.exports = {
 				const mention = await interaction.client.users.fetch(userId).catch(console.error);
 				const timeScore = obj['score'][userId];
 				const timeMode = db.get('timemode').value();
-				fieldName.name = `${keyword.toUpperCase()} | Safest time: ${Math.round(moment.duration(timeScore).as(timeMode))} ${timeMode}`;
-				fieldName.value = `ruined by ${mention}`;
+				const occurences = obj['count'];
+				fieldName.name = `${keyword.toUpperCase()} | ${occurences || 0} occurence(s)`;
+				fieldName.value = `ruined by ${mention} | Safest time: ${Math.round(moment.duration(timeScore).as(timeMode))} ${timeMode}`;
 				fieldName.inline = true;
 				fieldNames.push(fieldName);
 			}
@@ -39,7 +40,7 @@ module.exports = {
 			.addFields(fieldNames)
 			.setFooter({ text: '._.' });
 		if (data.length === 0)
-			embed.setDescription('there\'s nothing here... add smth with /track')
+			embed.setDescription('there\'s nothing here... add smth using /track')
 		await interaction.reply({ embeds: [embed]});
 	},
 };

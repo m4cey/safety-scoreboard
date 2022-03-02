@@ -30,6 +30,7 @@ module.exports = {
 		db.get('keywords').set(newdata);
 		db.save();
 	},
+
 	setScore(keyword, userId, score) {
 		const engine = new StormDB.localFileEngine("./db.stormdb");
 		const db = new StormDB(engine);
@@ -38,7 +39,6 @@ module.exports = {
 		if (!data)
 			return;
 
-		console.log('begin scoring');
 		const newdata = data.map(obj => {
 			if (keyword == Object.keys(obj)[0]) {
 				if (obj['score']) {
@@ -49,10 +49,31 @@ module.exports = {
 				obj['score'] = {};
 				obj['score'][userId] = score;
 			}
-			console.log(obj);
 			return obj;
 		});
 		db.get('keywords').set(newdata);
 		db.save();
-	}
+	},
+
+	incrementCount(keyword) {
+		const engine = new StormDB.localFileEngine("./db.stormdb");
+		const db = new StormDB(engine);
+
+		const data = db.get('keywords').value();
+		if (!data)
+			return;
+
+		const newdata = data.map(obj => {
+			if (keyword == Object.keys(obj)[0]) {
+				if (obj['count'])
+					obj['count'] = obj['count'] + 1;
+				else
+					obj['count'] = 1;
+				return obj;
+			}
+			return obj;
+		});
+		db.get('keywords').set(newdata);
+		db.save();
+	},
 };
