@@ -9,3 +9,7 @@ __Functionality:__
 
 read every message and post a time scoreboard everytime a keyword is present.
 counts are reset when a match occurs.
+
+
+**TODO**
+add highscores and track the users
