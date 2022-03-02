@@ -13,4 +13,4 @@ counts are reset when a match occurs.
 
 
 **TODO**
-add highscores and track the users
+~~add highscores and track the users~~
