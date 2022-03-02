@@ -6,8 +6,8 @@ const moment = require('moment');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('list')
-		.setDescription('list all keywords'),
+		.setName('highscores')
+		.setDescription('see the safest times and who ruined them >:('),
 	async execute(interaction) {
 		const engine = new StormDB.localFileEngine("./db.stormdb");
 		const db = new StormDB(engine);
@@ -21,20 +21,23 @@ module.exports = {
 		for (obj of data) {
 			const fieldName = {};
 			const keyword = Object.keys(obj)[0];
-			const time = Object.values(obj)[0];
-			const timeScore = moment().diff(moment(time));
-			const timeMode = db.get('timemode').value();
-			fieldName.name = keyword.toUpperCase();
-			fieldName.value = `Last accident: ${Math.round(moment.duration(timeScore).as(timeMode))} ${timeMode} ago`;
-			fieldName.inline = true;
-			fieldNames.push(fieldName);
+			if (obj['score']) {
+				const userId = Object.keys(obj['score'])[0];
+				const mention = await interaction.client.users.fetch(userId).catch(console.error);
+				const timeScore = obj['score'][userId];
+				const timeMode = db.get('timemode').value();
+				fieldName.name = `${keyword.toUpperCase()} | Safest time: ${Math.round(moment.duration(timeScore).as(timeMode))} ${timeMode}`;
+				fieldName.value = `ruined by ${mention}`;
+				fieldName.inline = true;
+				fieldNames.push(fieldName);
+			}
 		}
 		const embed = new MessageEmbed().setColor('0x00FFFF')
-			.setTitle('Currentely watched for accidents:')
+			.setTitle('Highscores')
 			.setAuthor({ name: 'Safety First :)' })
-			.setDescription('you are being watched o_o')
+			.setDescription('feel the shame.')
 			.addFields(fieldNames)
-			.setFooter({ text: 'o__o' });
+			.setFooter({ text: '._.' });
 		if (data.length === 0)
 			embed.setDescription('there\'s nothing here... add smth with /track')
 		await interaction.reply({ embeds: [embed]});

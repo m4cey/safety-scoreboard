@@ -4,6 +4,7 @@ __Commands:__
 * /clear all; remove all keywords.
 * /list; list all keywords.
 * /timemode (seconds, minutes, hours, days); set the timing mode.
+* /highscores; list all keywords and the highest scores attached;
 
 __Functionality:__
 

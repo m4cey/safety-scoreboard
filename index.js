@@ -4,7 +4,7 @@ const { Client, Collection, Intents, MessageEmbed } = require('discord.js');
 const { token } = require('./config.json');
 const StormDB = require('stormdb');
 const moment = require('moment');
-const { setKeyword } = require('./helper.js');
+const { setKeyword, setScore } = require('./helper.js');
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
@@ -63,10 +63,12 @@ client.on('messageCreate', async message => {
 		if (match) {
 			setKeyword(keyword, message.createdTimestamp);
 
-			let timeScore = moment().diff(moment(oldTimestamp), db.get('timemode').value());
+			const timeScore = moment().diff(moment(oldTimestamp));
+			const timeMode = db.get('timemode').value();
+			setScore(keyword, message.member.user.id, timeScore);
 
 			const embed = new MessageEmbed().setColor('0x00FFFF')
-				.setTitle(`~~${timeScore}~~ **0 ${db.get('timemode').value().toUpperCase()}**`)
+				.setTitle(`~~${Math.round(moment.duration(timeScore).as(timeMode))}~~ **0 ${timeMode.toUpperCase()}**`)
 				.setAuthor({ name: 'This place has worked:'})
 				.setDescription(`without a **${keyword}** related accident!`);
 			message.reply({ embeds: [embed] });
