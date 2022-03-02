@@ -72,7 +72,7 @@ client.on('messageCreate', async message => {
 				.setTitle(`~~${Math.round(moment.duration(timeScore).as(timeMode))}~~ **0 ${timeMode.toUpperCase()}**`)
 				.setAuthor({ name: 'This place has worked:'})
 				.setDescription(`without a **${keyword}** related accident!`)
-				.setFooter({text: `${obj['count'] + 1 || 1} occurence(s)`});
+				.setFooter({text: `${obj['count'] + 1 || 1} oopsies`});
 			message.reply({ embeds: [embed] });
 		}
 	}

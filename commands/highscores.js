@@ -27,7 +27,7 @@ module.exports = {
 				const timeScore = obj['score'][userId];
 				const timeMode = db.get('timemode').value();
 				const occurences = obj['count'];
-				fieldName.name = `${keyword.toUpperCase()} | ${occurences || 0} occurence(s)`;
+				fieldName.name = `${keyword.toUpperCase()} | ${occurences || 0} oopsies`;
 				fieldName.value = `ruined by ${mention} | Safest time: ${Math.round(moment.duration(timeScore).as(timeMode))} ${timeMode}`;
 				fieldName.inline = true;
 				fieldNames.push(fieldName);

@@ -26,7 +26,7 @@ module.exports = {
 			const timeMode = db.get('timemode').value();
 			const occurences = obj['count'];
 			if (occurences) {
-				fieldName.name = `${keyword.toUpperCase()} | ${occurences || 0} occurence(s)`;
+				fieldName.name = `${keyword.toUpperCase()} | ${occurences || 0} oopsies`;
 				fieldName.value = `Last accident: ${Math.round(moment.duration(timeScore).as(timeMode))} ${timeMode} ago`;
 			} else {
 				fieldName.name = keyword.toUpperCase();
