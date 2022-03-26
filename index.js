@@ -64,16 +64,16 @@ client.on('messageCreate', async message => {
 			setKeyword(keyword, message.createdTimestamp);
 
 			const timeScore = moment().diff(moment(oldTimestamp));
-			const timeMode = db.get('timemode').value();
+			// const timeMode = db.get('timemode').value();
 			setScore(keyword, message.member.user.id, timeScore);
 			incrementCount(keyword);
 
-			const embed = new MessageEmbed().setColor('0x00FFFF')
-				.setTitle(`~~${Math.round(moment.duration(timeScore).as(timeMode))}~~ **0 ${timeMode.toUpperCase()}**`)
-				.setAuthor({ name: 'This place has worked:'})
-				.setDescription(`without a **${keyword}** related accident!`)
-				.setFooter({text: `${obj['count'] + 1 || 1} oopsies`});
-			message.reply({ embeds: [embed] });
+			// const embed = new MessageEmbed().setColor('0x00FFFF')
+			// 	.setTitle(`~~${Math.round(moment.duration(timeScore).as(timeMode))}~~ **0 ${timeMode.toUpperCase()}**`)
+			// 	.setAuthor({ name: 'This place has worked:'})
+			// 	.setDescription(`without a **${keyword}** related accident!`)
+			// 	.setFooter({text: `${obj['count'] + 1 || 1} oopsies`});
+			// message.reply({ embeds: [embed] });
 		}
 	}
 });
